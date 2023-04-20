@@ -42,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
         try {
             admin = adminRepository1.findById(adminId).get();
         }catch (Exception e){
-            throw new Exception();
+            throw new Exception("Admin not present");
         }
         List<ServiceProvider> serviceProviderList = admin.getServiceProviders();
         ServiceProvider serviceProvider = new ServiceProvider();
@@ -67,7 +67,7 @@ public class AdminServiceImpl implements AdminService {
         try {
             serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
         }catch (Exception e){
-            throw new Exception();
+            throw new Exception("service provider not present");
         }
         List<Country> countryList = serviceProvider.getCountryList();
         Country country = new Country();
