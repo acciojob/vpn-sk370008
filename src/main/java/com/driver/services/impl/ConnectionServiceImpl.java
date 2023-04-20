@@ -56,7 +56,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             throw new Exception("Country not found");
         }
 
-        if (user.getCountry().getCountryName().equals(country.getCountryName())){
+        if (user.getOriginalCountry().getCountryName().equals(country.getCountryName())){
             return user;
         }
 

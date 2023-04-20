@@ -23,7 +23,7 @@ public class User {
 
     //user as parent in oneonone
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
-    private Country country;
+    private Country originalCountry;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     List<Connection> connectionList;
@@ -43,7 +43,7 @@ public class User {
         this.originalIp = originalIp;
         this.maskedIp = maskedIp;
         this.connected = connected;
-        this.country = country;
+        this.originalCountry = country;
         this.connectionList = connectionList;
         this.serviceProviderList = serviceProviderList;
     }
@@ -96,12 +96,12 @@ public class User {
         this.connected = connected;
     }
 
-    public Country getCountry() {
-        return country;
+    public Country getOriginalCountry() {
+        return originalCountry;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setOriginalCountry(Country originalCountry) {
+        this.originalCountry = originalCountry;
     }
 
     public List<Connection> getConnectionList() {
