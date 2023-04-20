@@ -38,12 +38,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin addServiceProvider(int adminId, String providerName) throws Exception {
-        Admin admin;
-        try {
-            admin = adminRepository1.findById(adminId).get();
-        }catch (Exception e){
-            throw new Exception("Admin not present");
-        }
+        Admin admin = adminRepository1.findById(adminId).get();
         List<ServiceProvider> serviceProviderList = admin.getServiceProviders();
         ServiceProvider serviceProvider = new ServiceProvider();
         serviceProvider.setName(providerName);
@@ -63,12 +58,7 @@ public class AdminServiceImpl implements AdminService {
 // You should create a new Country object based on the given country name and add it to the country list of the service provider.
 // Note that the user attribute of the country in this case would be null.
 // In case country name is not amongst the above mentioned strings, throw "Country not found" exception
-        ServiceProvider serviceProvider;
-        try {
-            serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
-        }catch (Exception e){
-            throw new Exception("service provider not present");
-        }
+        ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
         List<Country> countryList = serviceProvider.getCountryList();
         Country country = new Country();
         countryName = countryName.toUpperCase();
