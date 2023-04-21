@@ -28,6 +28,11 @@ public class Country {
     public Country() {
     }
 
+    public Country(CountryName countryName, String code) {
+        this.countryName = countryName;
+        this.code = code;
+    }
+
     public Country(int id, CountryName countryName, String code, ServiceProvider serviceProvider, User user) {
         this.id = id;
         this.countryName = countryName;

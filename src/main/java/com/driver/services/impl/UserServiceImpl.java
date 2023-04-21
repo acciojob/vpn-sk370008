@@ -113,7 +113,9 @@ public class UserServiceImpl implements UserService {
         String countryName1 = countryName.toUpperCase();
         if (!countryName1.equals("IND") && !countryName1.equals("USA") && !countryName1.equals("AUS") && !countryName1.equals("CHI") && !countryName1.equals("JPN")) throw new Exception("Country not found");
         Country country = new Country(CountryName.valueOf(countryName1), CountryName.valueOf(countryName1).toCode());
-        User user = new User(username, password);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
         country.setUser(user);
         user.setOriginalCountry(country);
         user = userRepository3.save(user);
