@@ -30,10 +30,8 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = new Admin();
         admin.setUsername(username);
         admin.setPassword(password);
-        admin.setServiceProviders(new ArrayList<>());
         adminRepository1.save(admin);
         return admin;
-
     }
 
     @Override
@@ -43,8 +41,6 @@ public class AdminServiceImpl implements AdminService {
         ServiceProvider serviceProvider = new ServiceProvider();
         serviceProvider.setName(providerName);
         serviceProvider.setAdmin(admin);
-        serviceProvider.setCountryList(new ArrayList<>());
-        serviceProvider.setUsers(new ArrayList<>());
         serviceProviderList.add(serviceProvider);
         admin.setServiceProviders(serviceProviderList);
         adminRepository1.save(admin);
@@ -59,7 +55,6 @@ public class AdminServiceImpl implements AdminService {
 // Note that the user attribute of the country in this case would be null.
 // In case country name is not amongst the above mentioned strings, throw "Country not found" exception
         ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
-        List<Country> countryList = serviceProvider.getCountryList();
         Country country = new Country();
         countryName = countryName.toUpperCase();
         if (countryName.equals("IND")){
@@ -80,12 +75,12 @@ public class AdminServiceImpl implements AdminService {
         }else {
             throw new Exception("Country not found");
         }
-        country.setServiceProvider(serviceProvider);
+        List<Country> countryList = serviceProvider.getCountryList();
         countryList.add(country);
+        country.setServiceProvider(serviceProvider);
         serviceProvider.setCountryList(countryList);
         serviceProviderRepository1.save(serviceProvider);
 
         return serviceProvider;
-
     }
 }

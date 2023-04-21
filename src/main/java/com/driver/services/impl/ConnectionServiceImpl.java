@@ -110,6 +110,54 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
     @Override
     public User communicate(int senderId, int receiverId) throws Exception {
-        return null;
+
+
+
+
+
+        User user = userRepository2.findById(senderId).get();
+        User user1 = userRepository2.findById(receiverId).get();
+
+        if(user1.getMaskedIp()!=null){
+            String str = user1.getMaskedIp();
+            String cc = str.substring(0,3); //chopping country code = cc
+
+            if(cc.equals(user.getOriginalCountry().getCode()))
+                return user;
+            else {
+                String countryName = "";
+
+                if (cc.equalsIgnoreCase(CountryName.IND.toCode()))
+                    countryName = CountryName.IND.toString();
+                if (cc.equalsIgnoreCase(CountryName.USA.toCode()))
+                    countryName = CountryName.USA.toString();
+                if (cc.equalsIgnoreCase(CountryName.JPN.toCode()))
+                    countryName = CountryName.JPN.toString();
+                if (cc.equalsIgnoreCase(CountryName.CHI.toCode()))
+                    countryName = CountryName.CHI.toString();
+                if (cc.equalsIgnoreCase(CountryName.AUS.toCode()))
+                    countryName = CountryName.AUS.toString();
+
+                User user2 = connect(senderId,countryName);
+                if (!user2.getConnected()){
+                    throw new Exception("Cannot establish communication");
+
+                }
+                else return user2;
+            }
+
+        }
+        else{
+            if(user1.getOriginalCountry().equals(user.getOriginalCountry())){
+                return user;
+            }
+            String countryName = user1.getOriginalCountry().getCountryName().toString();
+            User user2 =  connect(senderId,countryName);
+            if (!user2.getConnected()){
+                throw new Exception("Cannot establish communication");
+            }
+            else return user2;
+
+        }
     }
 }

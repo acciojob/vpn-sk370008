@@ -7,8 +7,8 @@ import java.util.List;
 @Entity
 public class ServiceProvider {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
@@ -21,12 +21,12 @@ public class ServiceProvider {
     List<Connection> connectionList = new ArrayList<>();
 
     @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
-    List<Country> countryList;
+    List<Country> countryList = new ArrayList<>();
 
     //service provider as parent in manytomany
     @ManyToMany
     @JoinColumn
-    List<User> users;
+    List<User> users = new ArrayList<>();
 
     public ServiceProvider() {
     }
