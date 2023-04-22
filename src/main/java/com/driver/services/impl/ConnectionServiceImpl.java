@@ -237,32 +237,49 @@ public class ConnectionServiceImpl implements ConnectionService {
 
     @Override
     public User communicate(int senderId, int receiverId) throws Exception {
-        User user = userRepository2.findById(senderId).get();
-        User user1 = userRepository2.findById(receiverId).get();
-        if (user1.getMaskedIp() != null) {
-            String str = user1.getMaskedIp();
-            String code = str.substring(0, 3);
+
+
+        //Establish a connection between sender and receiver users
+        //To communicate to the receiver, sender should be in the current country of the receiver.
+        //If the receiver is connected to a vpn, his current country is the one he is connected to.
+        //If the receiver is not connected to vpn, his current country is his original country.
+        //The sender is initially not connected to any vpn. If the sender's original country does not match receiver's current country, we need to connect the sender to a suitable vpn. If there are multiple options, connect using the service provider having smallest id
+        //If the sender's original country matches receiver's current country, we do not need to do anything as they can communicate. Return the sender as it is.
+        //If communication can not be established due to any reason, throw "Cannot establish communication" exception
+
+        User sender = userRepository2.findById(senderId).get();
+        User receiver = userRepository2.findById(receiverId).get();
+        if (receiver.getMaskedIp()!=null){
+            String maskedIp = receiver.getMaskedIp();
+            String code = maskedIp.substring(0,3);
             code = code.toUpperCase();
-            if (code.equals(user.getOriginalCountry().getCode())) return user;
+            if (code.equals(sender.getOriginalCountry().getCode())) return sender;
             String countryName = "";
             CountryName[] countryNames = CountryName.values();
-            for (CountryName countryName1 : countryNames)
-                if (countryName1.toCode().toString().equals(code)) countryName = countryName1.toString();
+            for(CountryName countryName1 : countryNames){
+                if (countryName1.toCode().toString().equals(code)){
+                    countryName = countryName1.toString();
+                }
+            }
             try {
-                user = connect(senderId, countryName);
-            } catch (Exception e) {
+                sender = connect(senderId,countryName);
+            }catch (Exception e){
                 throw new Exception("Cannot establish communication");
             }
-            if (!user.getConnected()) throw new Exception("Cannot establish communication");
-            return user;
+            if (!sender.getConnected()){
+                throw new Exception("Cannot establish communication");
+            }
+            return sender;
         }
-        if (user1.getOriginalCountry().equals(user.getOriginalCountry())) return user;
-        String countryName = user1.getOriginalCountry().getCountryName().toString();
+        if (sender.getOriginalCountry().equals(receiver.getOriginalCountry())){
+            return sender;
+        }
+        String countryName = receiver.getOriginalCountry().getCountryName().toString();
         try {
-            user = connect(senderId, countryName);
-        } catch (Exception e) {
-            if (!user.getConnected()) throw new Exception("Cannot establish communication");
+            sender = connect(senderId,countryName);
+        }catch (Exception e){
+            if (!sender.getConnected()) throw new Exception("Cannot establish communication");
         }
-        return user;
+        return sender;
     }
 }
