@@ -11,7 +11,6 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Enumerated
     private CountryName countryName;
 
     private String code;
