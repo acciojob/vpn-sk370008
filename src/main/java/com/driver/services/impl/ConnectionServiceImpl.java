@@ -60,7 +60,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         Connection connection = new Connection();
         connection.setUser(user);
         connection.setServiceProvider(serviceProviderWithLowestId);
-        user.setMaskedIp(new String(country.getCode() + "." + serviceProviderWithLowestId + userId));
+        user.setMaskedIp(country.getCode() + "." + serviceProviderWithLowestId.getId() + "." + userId);
         user.setConnected(true);
         user.getConnectionList().add(connection);
         serviceProviderWithLowestId.getConnectionList().add(connection);
