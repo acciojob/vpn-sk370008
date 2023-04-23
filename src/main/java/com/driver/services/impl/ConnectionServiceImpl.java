@@ -43,7 +43,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 
         List<ServiceProvider> serviceProviderList = user.getServiceProviderList();
         ServiceProvider serviceProviderWithLowestId = null;
-        Integer lowestId = null;
+        int lowestId = Integer.MAX_VALUE;
         Country country = null;
         for (ServiceProvider serviceProvider : serviceProviderList){
             List<Country> countryList = serviceProvider.getCountryList();
@@ -81,7 +81,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         //If the given user was not connected to a vpn, throw "Already disconnected" exception.
         //Else, disconnect from vpn, make masked Ip as null, update relevant attributes and return updated user.
         User user = userRepository2.findById(userId).get();
-        if (user.getMaskedIp() != null){
+        if (!user.getConnected()){
             throw new Exception("Already disconnected");
         }
         user.setMaskedIp(null);
