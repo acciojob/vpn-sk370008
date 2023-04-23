@@ -38,7 +38,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public Admin addServiceProvider(int adminId, String providerName) throws Exception {
+    public Admin addServiceProvider(int adminId, String providerName){
         Admin admin = adminRepository1.findById(adminId).get();
         ServiceProvider serviceProvider = new ServiceProvider();
         serviceProvider.setName(providerName);
