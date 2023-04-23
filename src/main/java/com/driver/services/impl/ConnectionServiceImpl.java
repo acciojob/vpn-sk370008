@@ -36,25 +36,8 @@ public class ConnectionServiceImpl implements ConnectionService {
 
 
         Country country = new Country();
-        countryName = countryName.toUpperCase();
-        if (countryName.equals("IND")){
-            country.setCountryName(CountryName.IND);
-            country.setCode(CountryName.IND.toCode());
-        }else if (countryName.equals("USA")){
-            country.setCountryName(CountryName.USA);
-            country.setCode(CountryName.USA.toCode());
-        }else if(countryName.equals("AUS")){/*chi,jap*/
-            country.setCountryName(CountryName.AUS);
-            country.setCode(CountryName.AUS.toCode());
-        }else if (countryName.equals("CHI")){
-            country.setCountryName(CountryName.CHI);
-            country.setCode(CountryName.CHI.toCode());
-        }else if (countryName.equals("JPN")){
-            country.setCountryName(CountryName.JPN);
-            country.setCode(CountryName.JPN.toCode());
-        }else {
-            throw new Exception("Country not found");
-        }
+        String countryName1 = countryName.toUpperCase();
+        if (!countryName1.equals("IND") && !countryName1.equals("USA") && !countryName1.equals("CHI") && !countryName1.equals("JPN")) throw new Exception("Country not found");
 
         if (user.getOriginalCountry().getCountryName().equals(country.getCountryName())){
             return user;
